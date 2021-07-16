@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'https://cdn.learnku.com/uploads/images/201710/14/1/ZqM7iaP4CR.png',
             'https://cdn.learnku.com/uploads/images/201710/14/1/NDnzMutoxX.png',
         ];
-        // 随机取一个月以内的时间
+        // 随机取今年以内的时间
         $updated_at = $this->faker->dateTimeThisYear();
         // 为创建时间传参，意为最大不超过 $updated_at，因为创建时间需永远比更改时间要早
         $created_at = $this->faker->dateTimeThisYear($updated_at);
