@@ -17,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')
     ->namespace('Api')
     ->name('api.v1.')
-    ->group(function ($router) {
+    ->group(function () {
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
-            ->group(function ($router) {
-                $router->post('captchas', 'CaptchasController@index');
-                $router->post('captchas/verification', 'CaptchasController@verification');
-                $router->post('login', 'AuthController@login');
-                $router->post('logout', 'AuthController@logout');
+            ->group(function () {
+                Route::post('captchas', 'CaptchasController@index');
+                Route::post('captchas/verification', 'CaptchasController@verification');
+                Route::post('login', 'AuthController@login');
+                Route::post('logout', 'AuthController@logout');
             });
+        Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
         Route::middleware(['refresh.token', 'throttle:' . config('api.rate_limits.access')])
-            ->group(function ($router) {
-                $router->get('profile', 'AuthController@profile');
+            ->group(function () {
+                Route::get('profile', 'AuthController@profile');
             });
     });
-
