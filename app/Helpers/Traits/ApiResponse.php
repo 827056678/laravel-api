@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Helpers\Traits;
+
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 use Illuminate\Support\Facades\Response;
 
@@ -22,7 +24,7 @@ trait ApiResponse
      * @param $statusCode
      * @return $this
      */
-    public function setStatusCode($statusCode,$httpCode=null)
+    public function setStatusCode($statusCode, $httpCode = null)
     {
         $httpCode = $httpCode ?? $statusCode;
         $this->statusCode = $statusCode;
@@ -37,7 +39,7 @@ trait ApiResponse
     public function respond($data, $header = [])
     {
 
-        return Response::json($data,$this->getStatusCode(),$header);
+        return Response::json($data, $this->getStatusCode(), $header);
     }
 
     /**
@@ -46,9 +48,10 @@ trait ApiResponse
      * @param null $code
      * @return mixed
      */
-    public function status($status, array $data, $code = null){
+    public function status($status, array $data, $code = null)
+    {
 
-        if ($code){
+        if ($code) {
             $this->setStatusCode($code);
         }
         $status = [
@@ -56,9 +59,8 @@ trait ApiResponse
             'code' => $this->statusCode
         ];
 
-        $data = array_merge($status,$data);
+        $data = array_merge($status, $data);
         return $this->respond($data);
-
     }
 
     /**
@@ -74,8 +76,9 @@ trait ApiResponse
      *  message:xxx
      *  status:'error'
      */
-    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST,$status = 'error'){
-        return $this->setStatusCode($code)->message($message,$status);
+    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST, $status = 'error')
+    {
+        return $this->setStatusCode($code)->message($message, $status);
     }
 
     /**
@@ -83,9 +86,10 @@ trait ApiResponse
      * @param string $status
      * @return mixed
      */
-    public function message($message, $status = "success"){
+    public function message($message, $status = "success")
+    {
 
-        return $this->status($status,[
+        return $this->status($status, [
             'message' => $message
         ]);
     }
@@ -94,9 +98,10 @@ trait ApiResponse
      * @param string $message
      * @return mixed
      */
-    public function internalError($message = "Internal Error!"){
+    public function internalError($message = "Internal Error!")
+    {
 
-        return $this->failed($message,FoundationResponse::HTTP_INTERNAL_SERVER_ERROR);
+        return $this->failed($message, FoundationResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -107,7 +112,6 @@ trait ApiResponse
     {
         return $this->setStatusCode(FoundationResponse::HTTP_CREATED)
             ->message($message);
-
     }
 
     /**
@@ -115,9 +119,10 @@ trait ApiResponse
      * @param string $status
      * @return mixed
      */
-    public function success($data, $status = "success"){
+    public function success($data, $status = "success")
+    {
 
-        return $this->status($status,compact('data'));
+        return $this->status($status, compact('data'));
     }
 
     /**
@@ -126,6 +131,6 @@ trait ApiResponse
      */
     public function notFond($message = 'Not Fond!')
     {
-        return $this->failed($message,Foundationresponse::HTTP_NOT_FOUND);
+        return $this->failed($message, Foundationresponse::HTTP_NOT_FOUND);
     }
 }

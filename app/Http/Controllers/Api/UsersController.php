@@ -15,7 +15,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::paginate();
+        $users = User::query()->paginate();
         return $this->success($users);
     }
 
@@ -26,7 +26,7 @@ class UsersController extends Controller
 
     public function store(UserRequest $request)
     {
-        $user = User::create($request->all());
+        $user = User::query()->create($request->all());
         return $this->success($user);
     }
 

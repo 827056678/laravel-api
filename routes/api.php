@@ -25,6 +25,7 @@ Route::prefix('v1')
                 Route::post('login', 'AuthController@login');
                 Route::post('logout', 'AuthController@logout');
             });
+        Route::post('test', 'TestController@index');
         Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
         Route::middleware(['refresh.token', 'throttle:' . config('api.rate_limits.access')])
             ->group(function () {

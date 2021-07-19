@@ -8,7 +8,6 @@ class UserPolicy extends Policy
 {
     public function update(User $currentUser, User $user)
     {
-        return true;
         return $currentUser->id == $user->id;
     }
 
