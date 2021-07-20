@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use EloquentFilter\Filterable;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
-
+    use Filterable;
     /**
      * The attributes that are mass assignable.
      *
@@ -41,7 +42,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime:Y-m-d H:i:s',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     public function getJWTIdentifier()

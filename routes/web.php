@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// 日志查看器
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

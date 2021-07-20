@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -13,15 +15,17 @@ class UsersController extends Controller
         $this->middleware('refresh.token', ['except' => ['index', 'show']]);
     }
 
-    public function index()
+    public function index(Request $request, User $user)
     {
-        $users = User::query()->paginate();
-        return $this->success($users);
+        $users = $user->query()->filter($request->all())->simplePaginate(5);
+        return UserResource::collection($users);
     }
 
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
-        return $this->success(compact('user'));
+        $authUser = $request->user;
+        $user = new UserResource($user);
+        return $this->success(compact('user', 'authUser'));
     }
 
     public function store(UserRequest $request)
